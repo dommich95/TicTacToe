@@ -47,32 +47,7 @@ $('.feeld').on('click', function(e){
     };
      
      playerOne= !playerOne;
-     
-     
 })
-
-//   const winner= function(){
-//     index=[];
-//     var idArrayX = [];
-//     $('.X').each(function () {
-//         idArrayX.push(this.id);
-//         console.log(idArrayX)
-//     });
-//      var idArrayO = [];
-//     $('.O').each(function () {
-//         idArrayO.push(this.id);
-//         console.log(idArrayO)
-//     });
-
-//     for(let i=0;i<possibleWins.length;i++){
-//         let index= possibleWins[i];
-//         if(index==idArrayX){
-//             alert ('X wins')
-//         }else if( index===idArrayO){
-//             alert('O wins')
-//     }
-// }}
-// winner()
 
 
 
