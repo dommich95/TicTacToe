@@ -1,55 +1,92 @@
-$(document).ready(function(){
+let reset=$('input[name=reset]').hide();
+$(document).ready(function () {
 
 const possibleWins=[
     ['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9'],
     ['1', '4', '7'], ['2', '5', '8'], ['3', '6', '9'],
-    ['1', '5', '9'], ['7', '5', '3']
+    ['1', '5', '9'], ['3', '5', '7']
 ];
 
 let playerOne=true;
+let id1='';
+let id2='';
+let reset=$('input[name=reset]').hide();
+let winX1=parseInt($('.win1').html());
+let winX2=parseInt($('.win2').html());
 
-$('.feeld').on('click', function(e){
-       
-    if ($(this).html()=="X" || $(this).html() =="O"){
+function game(){
+$('.feeld').on('click', function () {
+    const restart=function () {
+        reset.show();
+        $('#reset').on('click',function () {
+            $(".wrapper").children().bind('click');
+            $('.feeld').removeClass('X O').empty();
+            reset.hide();
+            $('.feeld').on('click', game());
+            $('#draw').hide();
+            $('#winnerOne').hide();
+            $('#winnerTwo').hide();  
+        })
+    }
+    if ($(this).html() === 'X' || $(this).html() === 'O') {
         return;
-    }else if(playerOne== true){
-        $(this).html("X").addClass("X")
+    } else if(playerOne == true) {
+        $(this).html('X').addClass('X');
         var idArrayX = [];
         $('.X').each(function () {
-        idArrayX.push(this.id);
-        parseInt(idArrayX)
-        var id1=idArrayX.join('')
-        console.log(id1)
-        for(let i=0;i<possibleWins.length;i++){
-            let index= possibleWins[i];
-            let posWin=index.join('');
-            if(id1==posWin){
-                $('.win1').html(+1)
-        }}
-    })
-        }else if(playerOne== false){
-            $(this).html("O").addClass("O")
-            var idArrayO = [];
-            $('.O').each(function () {
+            idArrayX.push(this.id);
+            parseInt(idArrayX);
+            id1 = idArrayX.join('');
+            for(let i = 0; i < possibleWins.length; i++) {    
+                let index = possibleWins[i];
+                let posWin = index.join('');
+                if(id1.includes(posWin[0]) && id1.includes(posWin[1]) && id1.includes(posWin[2])) {
+                    winX1 += 1;
+                    $('.win1').html(winX1);
+                    $('#winnerOne').html("Player One wins!");
+                    $('#winnerOne').show() ; 
+                    $('.feeld').off('click', game());
+                    restart();
+                }
+            }
+        })
+    } else if (playerOne === false) {
+        $(this).html('O').addClass('O')
+        let idArrayO = [];
+        $('.O').each(function  () {
             idArrayO.push(this.id);
-            parseInt(idArrayO)
-            var id2=idArrayO.join('')
-            console.log(id2)
-
-       for(let i=0;i<possibleWins.length;i++){
-        let index= possibleWins[i];
-        let posWin=index.join('');
-        // console.log(posWin)
-        if(id2==posWin){
-            $('.win2').html(+1)
-        }} 
-     });
+            parseInt(idArrayO);
+            id2=idArrayO.join('');
+            for(let i = 0; i< possibleWins.length; i++) {
+                let index = possibleWins[i];
+                let posWin = index.join('');
+                if(id2.includes(posWin[0]) && id2.includes(posWin[1]) && id2.includes(posWin[2])) {
+                    winX2 += 1;
+                    $('.win2').html(winX2);
+                    $('#winnerTwo').html("Player Two wins!");
+                    $('#winnerTwo').show();
+                    $('.feeld').off('click', game());
+                    restart(); 
+                    };
+            };
+        });       
     };
-     
-     playerOne= !playerOne;
-})
-
-
-
-
-})
+    const draw = function () {
+        for(let i = 0 ; i < possibleWins.length; i++) { 
+            let index = possibleWins[i];
+            let posWin = index.join('');
+            console.log(id1);
+            console.log(posWin);
+            if(!id1.includes(posWin[0]) && !id1.includes(posWin[1]) && !id1.includes(posWin[2]) && !id2.includes(posWin[0]) && !id2.includes(posWin[1]) && !id2.includes(posWin[2]) && id1.length+id2.length == 9) {
+                $('#draw').html("It's a Draw, Play again!");
+                $('#draw').show();
+                restart();    
+            };
+        };
+    };
+    playerOne = !playerOne;
+    draw();
+});
+};
+game()
+});
