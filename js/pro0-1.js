@@ -1,3 +1,4 @@
+
 let reset=$('#reset').hide();
 $(document).ready(function () {
 
@@ -38,6 +39,7 @@ $('.feeld').on('click', function () {
             id1 = idArrayX.join('');
             for(let i = 0; i < possibleWins.length; i++) {    
                 let index = possibleWins[i];
+                console.log(index)
                 let posWin = index.join('');
                 if(id1.includes(posWin[0]) && id1.includes(posWin[1]) && id1.includes(posWin[2])) {
                     winX1 += 1;
@@ -46,9 +48,9 @@ $('.feeld').on('click', function () {
                     $('#winnerOne').show() ; 
                     $('.feeld').off('click', game());
                     restart();
-                };
-            };
-        }) 
+                }
+            }
+        })
     } else if (playerOne === false) {
         $(this).html('O').addClass('O')
         let idArrayO = [];
@@ -66,17 +68,20 @@ $('.feeld').on('click', function () {
                     $('#winnerTwo').show();
                     $('.feeld').off('click', game());
                     restart(); 
-                };
+                    };
             };
-        });      
-    } 
+        });       
+    };
     const draw = function () {
-        if($('#winnerOne, #winnerTwo').is(':visible')){return
-        } else if( id1.length+id2.length == 9) {
+        for(let i = 0 ; i < possibleWins.length; i++) { 
+            let index = possibleWins[i];
+            let posWin = index.join('');
+            if(id1.includes(posWin[0]) && id1.includes(posWin[1]) && !id1.includes(posWin[2]) && id1.length+id2.length == 9 || id1.includes(posWin[0]) && !id1.includes(posWin[1]) && id1.includes(posWin[2]) && id1.length+id2.length == 9 ||!id1.includes(posWin[0]) && id1.includes(posWin[1]) && id1.includes(posWin[2]) && id1.length+id2.length == 9 || id2.includes(posWin[0]) && id2.includes(posWin[1]) && !id2.includes(posWin[2]) && id1.length+id2.length == 9 || id2.includes(posWin[0]) && !id2.includes(posWin[1]) && id2.includes(posWin[2]) && id1.length+id2.length == 9 || !id2.includes(posWin[0]) && id2.includes(posWin[1]) && id2.includes(posWin[2]) && id1.length+id2.length == 9) {
                 $('#draw').html("It's a Draw, Play again!");
                 $('#draw').show();
                 restart();    
             };
+        };
     };
     playerOne = !playerOne;
     draw();
